@@ -11,15 +11,18 @@ app.use(express.json());
 
 
 
-app.get('/api/time', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT NOW()');
-    res.json(result.rows[0]); // sends { now: '2025-06-28T20:57:12.000Z' }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Database error");
-  }
-});
+app.post("/todos",async(req,res)=>{
+try {
+ 
+  const {title}=req.body
+
+  const postingquery= await pool.query("INSERT INTO todos (title) values($1) RETURNING *",[title])
+  res.json(postingquery)
+  console.log(postingquery)
+} catch (err) {
+  console.log(err.message)
+}
+})
 
 
 app.listen(PORT, () => {
