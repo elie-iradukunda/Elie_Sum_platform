@@ -25,6 +25,18 @@ try {
 })
 
 
+app.get("/todos",async(req,res)=>{
+try {
+
+  const getall=await pool.query("SELECT * FROM todos")
+  res.json(getall.rows)
+} catch (err) {
+  console.log(err.message)
+}
+})
+
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
